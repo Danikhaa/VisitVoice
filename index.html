@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VisitVoice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F1F5F3;--sf:#fff;--ink:#122428;--mu:#4A5F63;--br:#0A5A63;--bi:#fff;--ln:#C9D6D3;--rec:#B42318;--tint:#DCEBE8;--wb:#FFF1D6;--wi:#5A3A00;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1B1E;--sf:#172629;--ink:#EAF3F1;--mu:#A9BFC2;--br:#5CC4CF;--bi:#06262A;--ln:#2C4044;--rec:#FF8A80;--tint:#1F3A3E;--wb:#3A2D0D;--wi:#FFD98A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0F1B1E;--sf:#172629;--ink:#EAF3F1;--mu:#A9BFC2;--br:#5CC4CF;--bi:#06262A;--ln:#2C4044;--rec:#FF8A80;--tint:#1F3A3E;--wb:#3A2D0D;--wi:#FFD98A;color-scheme:dark}
+html{font-size:112.5%;scroll-padding-top:env(safe-area-inset-top,0px)}html.big{font-size:131%}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:1rem/1.5 "Atkinson Hyperlegible",system-ui,sans-serif;padding-bottom:calc(5.5rem + env(safe-area-inset-bottom,0px))}
+::selection{background:var(--br);color:var(--bi)}textarea,input{caret-color:var(--br)}
+:focus-visible{outline:3px solid var(--br);outline-offset:3px;border-radius:6px}
+header{display:flex;justify-content:space-between;align-items:center;max-width:44rem;margin:0 auto;padding:.75rem 1.25rem}
+.logo{font-weight:700;font-size:1.25rem;letter-spacing:-.01em}.logo span{color:var(--br)}
+main{max-width:44rem;margin:0 auto;padding:.5rem 1.25rem 2rem}
+h1{font-size:2rem;line-height:1.15;margin:.5rem 0 .5rem;text-wrap:balance;letter-spacing:-.02em}
+h2{font-size:1.35rem;margin:2rem 0 .5rem;text-wrap:balance}h3{font-size:1.05rem;margin:1.25rem 0 .25rem}
+p{margin:.25rem 0 .75rem;max-width:62ch}.mu{color:var(--mu)}
+button{font:inherit;cursor:pointer;min-height:3.25rem;padding:.5rem 1.25rem;border-radius:.9rem;border:2px solid var(--br);background:transparent;color:var(--br);font-weight:700;transition:background .15s,transform .15s}
+button:hover{background:var(--tint)}button:active{transform:scale(.98)}
+button.p{background:var(--br);color:var(--bi)}button.p:hover{filter:brightness(1.08)}
+button:disabled{opacity:.45;cursor:not-allowed}
+button.t{border-color:transparent;min-height:2.75rem;padding:.25rem .75rem}
+textarea,input[type=text],select{width:100%;font:inherit;color:var(--ink);background:var(--sf);border:2px solid var(--ln);border-radius:.9rem;padding:.75rem 1rem;min-height:3.25rem}
+textarea{min-height:8.5rem;resize:vertical}textarea:focus,input:focus,select:focus{border-color:var(--br)}
+label{display:block;font-weight:700;margin:1rem 0 .35rem}
+.stage{display:flex;flex-direction:column;align-items:center;gap:.75rem;padding:1.5rem 0 1rem}
+.mic{width:7.5rem;height:7.5rem;border-radius:50%;padding:0;display:grid;place-items:center;background:var(--br);color:var(--bi);border:0;box-shadow:0 8px 24px -8px rgba(10,90,99,.6)}
+.mic svg{width:3.2rem;height:3.2rem}.mic.on{background:var(--rec);color:#fff;animation:ring 1.6s ease-out infinite}
+@keyframes ring{0%{box-shadow:0 0 0 0 rgba(180,35,24,.5)}100%{box-shadow:0 0 0 2.2rem rgba(180,35,24,0)}}
+.lbl{font-weight:700;font-size:1.15rem}.dict.on{background:var(--rec);border-color:var(--rec);color:#fff}
+.panel{background:var(--sf);border:1px solid var(--ln);border-radius:1.1rem;padding:1.1rem 1.25rem;margin:1rem 0}
+.alert{background:var(--wb);color:var(--wi);border-radius:1rem;padding:1rem 1.25rem;margin:1rem 0;font-weight:700}
+.row{display:flex;gap:.75rem;flex-wrap:wrap;margin:1rem 0}.row>*{flex:1 1 11rem}
+ul.l{list-style:none;padding:0;margin:.25rem 0}ul.l li{padding:.6rem 0;border-top:1px solid var(--ln)}ul.l li:first-child{border-top:0}
+.chk{display:flex;gap:.75rem;align-items:flex-start;font-weight:400;margin:.4rem 0}.chk input{width:1.6rem;height:1.6rem;margin-top:.1rem;accent-color:var(--br);flex:none}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--sf);border-top:1px solid var(--ln);display:flex;justify-content:center;padding:.4rem .5rem calc(.4rem + env(safe-area-inset-bottom,0px));gap:.25rem}
+nav button{flex:1;max-width:12rem;display:flex;flex-direction:column;align-items:center;gap:.1rem;border:0;min-height:4rem;font-size:.95rem;color:var(--mu);padding:.35rem}
+nav button svg{width:1.7rem;height:1.7rem}nav button[aria-current=page]{background:var(--tint);color:var(--br)}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:.25rem;text-align:center}.cal b{font-size:.85rem;color:var(--mu)}
+.cal button{min-height:3.1rem;padding:0;border:2px solid transparent;color:var(--ink);font-weight:400;position:relative;border-radius:.7rem}
+.cal button.has{font-weight:700;background:var(--tint)}.cal button.has::after{content:"";position:absolute;bottom:.3rem;left:50%;width:.4rem;height:.4rem;margin-left:-.2rem;border-radius:50%;background:var(--br)}
+.cal button[aria-pressed=true]{border-color:var(--br)}.cal button.td{text-decoration:underline;text-underline-offset:.25em}
+.seg{display:inline-flex;border:2px solid var(--br);border-radius:.9rem;overflow:hidden}.seg button{border:0;border-radius:0;min-height:3rem}.seg button[aria-pressed=true]{background:var(--br);color:var(--bi)}
+.entry time{font-weight:700}.sym{display:inline-block;background:var(--tint);border-radius:.6rem;padding:.1rem .6rem;margin:.15rem .25rem .15rem 0;font-size:.95rem}
+.doc{background:#fff;color:#111;border:1px solid #999;border-radius:.4rem;padding:1.25rem;font-size:.92rem;line-height:1.4}.doc h2{margin:1rem 0 .3rem;font-size:1rem;text-transform:none}
+.doc table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}.doc th,.doc td{text-align:left;padding:.35rem .4rem;border-bottom:1px solid #ccc;vertical-align:top}
+.doc .mu{color:#444}.tag{font-size:.8rem;border:1px solid #999;border-radius:.3rem;padding:0 .4rem}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{header,nav,.noprint{display:none!important}body{background:#fff}}
+</style>
+</head>
+<body>
+<header><div class="logo">Visit<span>Voice</span></div><button class="t" data-a="big" aria-pressed="false">Larger text</button></header>
+<main id="app" tabindex="-1" aria-live="polite"></main>
+<nav aria-label="Main"></nav>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+const $=(s,r=document)=>r.querySelector(s),K='visitvoice.v1';
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const pd=s=>{const[a,b,c]=s.split('-');return new Date(+a,+b-1,+c)};
+const fd=(s,o)=>pd(s).toLocaleDateString(undefined,o||{weekday:'long',month:'long',day:'numeric'});
+const SH={month:'short',day:'numeric'};
+const I={today:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>',journal:'<path d="M5 4h12a2 2 0 0 1 2 2v14H7a2 2 0 0 1-2-2z"/><path d="M9 9h6M9 13h6"/>',report:'<path d="M7 3h8l4 4v14H7z"/><path d="M10 12h6M10 16h6"/>'};
+const NAV=[['today','Talk'],['journal','Journal'],['report','Visit report']];
+const S={entries:[],myq:[],view:'today',text:'',draft:null,busy:false,rec:false,saved:null,sel:null,mo:new Date(),range:30,mode:'me',who:'',note:''};
+function load(){try{const j=JSON.parse(localStorage.getItem(K)||'null');if(j){S.entries=j.entries||[];S.myq=j.myq||[];return}}catch(e){}
+ const t=new Date(),d=n=>{const x=new Date(t);x.setDate(x.getDate()-n);return x};
+ const m=(n,time,summary,symptoms,questions=[])=>({id:'s'+n,ts:d(n).setHours(9,0,0,0),date:iso(d(n)),time,summary,symptoms:symptoms.map(([name,detail])=>({name,detail})),questions,sample:1});
+ S.entries=[m(18,'9:10 AM','I felt dizzy when I stood up from the couch this morning.',[['Dizziness','When standing up, a few seconds']]),
+ m(13,'8:40 AM','Dizzy again after getting out of bed. My ankles looked puffy by evening.',[['Dizziness','After getting out of bed'],['Ankle swelling','Both ankles, evening']],['Could any of my medicines be causing the dizziness?']),
+ m(8,'7:55 AM','I slept badly and woke up three times. Tired all day.',[['Poor sleep','Woke up three times'],['Fatigue','All day']]),
+ m(4,'10:20 AM','Dizzy when I bent over in the garden. Ankles puffy again.',[['Dizziness','Bending over'],['Ankle swelling','Evening']],['Should I be putting my feet up?']),
+ m(1,'9:05 AM','Better today. Just a little tired.',[['Fatigue','Mild']])]}
+function save(){try{localStorage.setItem(K,JSON.stringify({entries:S.entries,myq:S.myq}))}catch(e){}}
+/* ---------- AI organizer ---------- */
+let SM;async function sm(){if(SM!==undefined)return SM;try{SM=await claude.use('sample')}catch(e){SM=null}return SM}
+const URG=/chest (pain|pressure|tight)|can.?t breathe|trouble breathing|face (is )?droop|slurred|sudden(ly)? (weak|numb|confus)|faint(ed)?|passed out|worst headache/i;
+function local(t){const KW=[['dizz','Dizziness'],['light-?headed','Lightheadedness'],['headache','Headache'],['tired|exhaust|fatigue|no energy','Fatigue'],['cough','Cough'],['breath','Shortness of breath'],['swollen|swelling|puffy','Swelling'],['nause','Nausea'],['pain|ache|hurt|sore','Pain'],['sleep|woke up','Sleep trouble'],['appetite|not eating','Low appetite'],['\\bfell\\b|\\bfall\\b','A fall']];
+ const sy=[],seen={};t.split(/(?<=[.!?])\s+/).forEach(s=>KW.forEach(([r,n])=>{if(!seen[n]&&new RegExp(r,'i').test(s)){seen[n]=1;sy.push({name:n,detail:s.replace(/[.!?]+$/,'')})}}));
+ const cl=[];if(!/since|yesterday|days?|week|morning|night|ago/i.test(t))cl.push('When did this start?');if(!/\b(mild|moderate|severe|bad|worse|better|\d+ (out )?of 10)\b/i.test(t))cl.push('How strong was it, from mild to severe?');
+ return{summary:t.trim(),symptoms:sy,questions:[],clarify:cl.slice(0,2)}}
+async function organize(t){let r=null;try{const x=await fetch('/api/organize',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:t})});if(x.ok)r=await x.json()}catch(e){}
+ const s=r?null:await sm();
+ if(s){try{r=await s.json(`You help an older adult prepare for a doctor visit. Rewrite their spoken note. NEVER diagnose, never suggest causes, treatments or medicines. Use only what they said.
+Return ONLY JSON: {"summary":"1-2 plain first-person sentences","symptoms":[{"name":"2-3 words","detail":"short detail they gave"}],"questions":["questions they seem to want to ask their doctor, first person; [] if none"],"clarify":["at most 2 short, kind follow-up questions about missing timing, severity, triggers or what helped; [] if enough detail"]}
+Spoken note: """${t}"""`)}catch(e){r=null}}
+ r=r&&typeof r==='object'?r:local(t);
+ const a=x=>Array.isArray(x)?x:[];
+ return{summary:String(r.summary||t),symptoms:a(r.symptoms).map(x=>({name:String(x.name||''),detail:String(x.detail||'')})).filter(x=>x.name),questions:a(r.questions).map(String),clarify:a(r.clarify).map(String).slice(0,2),urgent:URG.test(t),ai:!!s&&r!==null}}
+/* ---------- speech ---------- */
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;let rc=null,base='';
+function setRec(on){S.rec=on;const b=$('.mic');if(b){b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)}const l=$('#rl');if(l)l.textContent=on?'Listening… tap to stop':'Tap to talk'}
+function toggleMic(){if(!SR){$('#hint').textContent='Voice typing isn’t available in this browser, so please type below.';$('#tx').focus();return}
+ if(S.rec){rc&&rc.stop();return}
+ rc=new SR();rc.continuous=true;rc.interimResults=true;rc.lang=navigator.language||'en-US';base=S.text?S.text.trim()+' ':'';let fin='';
+ rc.onresult=e=>{let it='';for(let i=e.resultIndex;i<e.results.length;i++){const r=e.results[i];if(r.isFinal)fin+=r[0].transcript+' ';else it+=r[0].transcript}
+  S.text=(base+fin+it).trim();const t=$('#tx');if(t){t.value=S.text;$('#go').disabled=!S.text}};
+ rc.onerror=e=>{setRec(false);$('#hint').textContent=/not-allowed|service/.test(e.error)?'This page can’t use the microphone here. Tap the text box and use the microphone key on your keyboard instead; it types what you say.':'Didn’t catch that. Tap the microphone to try again, or use the microphone key on your keyboard.'};
+ rc.onend=()=>setRec(false);try{rc.start();setRec(true);$('#hint').textContent=''}catch(e){setRec(false)}}
+function say(m){let t=$('#toast');if(!t){t=document.createElement('div');t.id='toast';t.setAttribute('role','status');t.style.cssText='position:fixed;left:1rem;right:1rem;bottom:calc(6rem + env(safe-area-inset-bottom,0px));max-width:40rem;margin:0 auto;background:var(--ink);color:var(--bg);padding:1rem 1.25rem;border-radius:1rem;font-weight:700;z-index:9';document.body.appendChild(t)}t.textContent=m;t.hidden=false;clearTimeout(t._h);t._h=setTimeout(()=>t.hidden=true,8000)}
+window.alert=say;
+let rc2=null,rcI=-1;
+function dictate(i){const inp=$('#c'+i),b=document.querySelector('[data-a=dict][data-i="'+i+'"]');
+ if(!SR){alert('Voice typing isn’t available in this browser. Tap the box and use your keyboard’s microphone key instead.');inp.focus();return}
+ if(rc2&&rcI===i){rc2.stop();return}
+ if(rc2)rc2.stop();if(S.rec&&rc)rc.stop();
+ const r=new SR(),base=inp.value.trim()?inp.value.trim()+' ':'';r.continuous=false;r.interimResults=true;r.lang=navigator.language||'en-US';rc2=r;rcI=i;
+ r.onresult=e=>{let t='';for(let k=0;k<e.results.length;k++)t+=e.results[k][0].transcript;inp.value=base+t};
+ r.onerror=e=>{if(/not-allowed|service/.test(e.error)){alert('This page can’t use the microphone here. Tap the box and use your keyboard’s microphone key instead.');inp.focus()}};
+ r.onend=()=>{if(rc2===r){rc2=null;rcI=-1}if(b){b.classList.remove('on');b.textContent='Speak'}};
+ try{r.start();if(b){b.classList.add('on');b.textContent='Stop'}}catch(e){rc2=null;rcI=-1}}
+/* ---------- views ---------- */
+function vToday(){const d=S.draft;
+ if(S.saved)return`<h1>Saved.</h1><p>Your note for ${esc(fd(S.saved))} is in your journal.</p><div class="row"><button class="p" data-a="go" data-v="journal">See my journal</button><button data-a="again">Add another note</button></div>`;
+ let h=`<h1>How are you feeling today?</h1><p class="mu">Tell me in your own words. I’ll tidy it up, and nothing is saved until you say so.</p>
+ <div class="stage"><button class="mic${S.rec?' on':''}" data-a="mic" aria-pressed="${S.rec}" aria-label="Talk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${I.today}</svg></button><div class="lbl" id="rl">${S.rec?'Listening… tap to stop':'Tap to talk'}</div></div>
+ <p id="hint" class="mu" role="status"></p>
+ <label for="tx">What you said (you can fix any words)</label><textarea id="tx" data-b="text" placeholder="For example: I felt dizzy this morning when I stood up…">${esc(S.text)}</textarea>
+ <div class="row noprint"><button class="p" id="go" data-a="org" ${S.text&&!S.busy?'':'disabled'}>${S.busy?'Organizing…':d?'Organize again':'Organize my note'}</button></div>`;
+ if(d){h+=`${d.urgent?'<div class="alert" role="alert">Some things you described can be urgent. If you have chest pain, trouble breathing, face drooping, sudden weakness or confusion, call 911 now. Don’t wait for your appointment.</div>':''}
+ <section class="panel" aria-label="Your note, organized"><h2 style="margin-top:0">Here’s what I heard</h2><label for="sm">Summary</label><textarea id="sm" data-b="sum" style="min-height:5rem">${esc(d.summary)}</textarea>
+ ${d.symptoms.length?`<h3>Things you noticed</h3><ul class="l">${d.symptoms.map((s,i)=>`<li><b>${esc(s.name)}</b>${s.detail?' · '+esc(s.detail):''} <button class="t" data-a="rm" data-i="${i}" aria-label="Remove ${esc(s.name)}">Remove</button></li>`).join('')}</ul>`:''}
+ ${d.clarify.length?`<h3>A couple of quick questions</h3>${d.clarify.map((c,i)=>`<label for="c${i}">${esc(c)}</label><div style="display:flex;gap:.5rem"><input type="text" id="c${i}" data-b="cl" data-i="${i}" autocomplete="off" style="flex:1;min-width:0"><button class="dict" data-a="dict" data-i="${i}" aria-label="Speak your answer to: ${esc(c)}" style="flex:0 0 auto">Speak</button></div>`).join('')}<div class="row"><button data-a="upd">Add these answers</button></div>`:''}
+ ${d.questions.length?`<h3>Questions for your doctor</h3>${d.questions.map((q,i)=>`<label class="chk"><input type="checkbox" data-b="q" data-i="${i}" checked> <span>${esc(q)}</span></label>`).join('')}`:''}
+ <p class="mu">This is your own words, organized. It isn’t medical advice or a diagnosis.</p>
+ <div class="row"><button class="p" data-a="save">Yes, save to my journal</button><button data-a="again">Start over</button></div></section>`}
+ return h}
+function vJournal(){const m=S.mo,y=m.getFullYear(),mo=m.getMonth(),first=new Date(y,mo,1).getDay(),n=new Date(y,mo+1,0).getDate(),by={};S.entries.forEach(e=>(by[e.date]=by[e.date]||[]).push(e));
+ let c=['S','M','T','W','T','F','S'].map(x=>`<b aria-hidden="true">${x}</b>`).join('')+'<span></span>'.repeat(first);
+ for(let d=1;d<=n;d++){const k=iso(new Date(y,mo,d)),k2=(by[k]||[]).length;c+=`<button data-a="day" data-d="${k}" class="${k2?'has':''}${k===iso(new Date())?' td':''}" aria-pressed="${S.sel===k}" aria-label="${esc(fd(k))}, ${k2?k2+(k2>1?' notes':' note'):'no notes'}">${d}</button>`}
+ const list=S.entries.filter(e=>!S.sel||e.date===S.sel).sort((a,b)=>b.ts-a.ts);let last='';
+ return`<h1>My health journal</h1><div style="display:flex;align-items:center;justify-content:space-between;gap:.5rem"><button data-a="mo" data-n="-1" aria-label="Previous month">‹ Back</button><h2 style="margin:0;font-size:1.2rem" aria-live="polite">${m.toLocaleDateString(undefined,{month:'long',year:'numeric'})}</h2><button data-a="mo" data-n="1" aria-label="Next month">Next ›</button></div>
+ <div class="cal panel" role="group" aria-label="Calendar">${c}</div>
+ ${S.sel?`<p>Showing ${esc(fd(S.sel))}. <button class="t" data-a="day" data-d="${S.sel}">Show everything</button></p>`:''}
+ ${S.entries.some(e=>e.sample)?`<div class="panel noprint"><b>Sample notes are shown so you can explore.</b> <button class="t" data-a="clr">Clear samples</button></div>`:''}
+ ${list.length?list.map(e=>{const h=e.date!==last?`<h2>${esc(fd(e.date))}</h2>`:'';last=e.date;return h+`<article class="panel entry"><time>${esc(e.time)}</time>${e.sample?' <span class="tag">sample</span>':''}<p>${esc(e.summary)}</p>${e.symptoms.map(s=>`<span class="sym">${esc(s.name)}</span>`).join('')}<div><button class="t" data-a="del" data-id="${e.id}">Delete this note</button></div></article>`}).join(''):'<p class="mu">No notes yet. Tap “Talk” to add your first one.</p>'}`}
+function rep(){const f=new Date();f.setDate(f.getDate()-S.range);const fs=iso(f),es=S.entries.filter(e=>e.date>=fs).sort((a,b)=>a.ts-b.ts),mp={};
+ es.forEach(e=>e.symptoms.forEach(s=>{const k=s.name.toLowerCase(),m=mp[k]||(mp[k]={name:s.name,ds:new Set(),last:''});m.ds.add(e.date);m.last=s.detail}));
+ const sy=Object.values(mp).map(m=>{const d=[...m.ds].sort();return{name:m.name,n:d.length,a:d[0],b:d[d.length-1],last:m.last}}).sort((a,b)=>b.n-a.n);
+ return{es,sy,qs:[...new Set([...es.flatMap(e=>e.questions),...S.myq])],days:new Set(es.map(e=>e.date)).size}}
+function vReport(){const r=rep(),doc=S.mode==='dr',title=S.who?`Visit with ${esc(S.who)}`:'My visit report';
+ const head=`<h1 class="noprint">Get ready for my visit</h1><div class="row noprint"><div><label for="wh">Doctor or visit (optional)</label><input type="text" id="wh" data-b="who" value="${esc(S.who)}" autocomplete="off"></div><div><label for="rg">Look back</label><select id="rg" data-b="range">${[7,14,30,90].map(n=>`<option value="${n}"${n===S.range?' selected':''}>${n} days</option>`).join('')}</select></div></div>
+ <div class="noprint" style="display:flex;gap:.75rem;flex-wrap:wrap;align-items:center"><div class="seg" role="group" aria-label="View"><button data-a="mode" data-m="me" aria-pressed="${!doc}">My copy</button><button data-a="mode" data-m="dr" aria-pressed="${doc}">Doctor’s view</button></div><button data-a="print">Save as PDF</button></div>`;
+ if(!r.es.length)return head+'<p class="mu">No notes in this time. Try looking back further.</p>';
+ const pat=r.sy.map(s=>s.n>1?`${s.name}: ${s.n} different days (${fd(s.a,SH)} to ${fd(s.b,SH)})`:`${s.name}: once, ${fd(s.a,SH)}`);
+ if(doc)return head+`<article class="doc" style="margin-top:1rem"><h2 style="font-size:1.2rem;margin-top:0">Patient-reported summary <span class="tag">not a diagnosis</span></h2><div class="mu">${title} · last ${S.range} days · ${r.es.length} notes on ${r.days} days · Patient’s own words, organized by AI and approved by the patient.</div>
+ <h2>Reported symptoms</h2><table><tr><th>Symptom</th><th>Days</th><th>First</th><th>Latest</th><th>Latest detail</th></tr>${r.sy.map(s=>`<tr><td><b>${esc(s.name)}</b></td><td>${s.n}</td><td>${fd(s.a,SH)}</td><td>${fd(s.b,SH)}</td><td>${esc(s.last)}</td></tr>`).join('')}</table>
+ <h2>Patient’s questions</h2>${r.qs.length?'<ol>'+r.qs.map(q=>`<li>${esc(q)}</li>`).join('')+'</ol>':'<span class="mu">None listed.</span>'}
+ <h2>Timeline</h2><table>${r.es.map(e=>`<tr><td style="white-space:nowrap">${fd(e.date,SH)}</td><td>${esc(e.summary)}</td></tr>`).join('')}</table></article>`;
+ return head+`<h2>What I’ve noticed</h2><p>Over the last ${S.range} days I wrote ${r.es.length} notes on ${r.days} days.</p><ul class="l">${pat.map(p=>`<li>${esc(p)}</li>`).join('')}</ul>
+ <h2>Questions to ask</h2>${r.qs.length?'<ul class="l">'+r.qs.map(q=>`<li>${esc(q)}</li>`).join('')+'</ul>':'<p class="mu">Nothing yet.</p>'}
+ <label for="nq" class="noprint">Add a question of your own</label><div class="row noprint"><input type="text" id="nq" autocomplete="off" data-b="nq"><button data-a="addq" style="flex:0 0 auto">Add</button></div>
+ <h2>My notes, oldest first</h2><ul class="l">${r.es.map(e=>`<li><b>${fd(e.date,SH)}</b> · ${esc(e.summary)}</li>`).join('')}</ul>`}
+/* ---------- shell ---------- */
+function render(f){$('#app').innerHTML={today:vToday,journal:vJournal,report:vReport}[S.view]();
+ $('nav').innerHTML=NAV.map(([k,l])=>`<button data-a="go" data-v="${k}" ${S.view===k?'aria-current="page"':''}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[k]}</svg>${l}</button>`).join('');
+ if(f){$('#app').focus();scrollTo(0,0)}}
+async function savePdf(){const r=rep(),J=window.jspdf&&window.jspdf.jsPDF;let dl=null;try{dl=await claude.use('downloads')}catch(e){}
+ if(!J)return alert('The PDF tool didn’t load. Check your connection and try again.');if(!r.es.length)return alert('There are no notes in this time range yet.');
+ const p=new J({unit:'pt',format:'letter'});let y=60;const w=(t,sz=11,bold=0,gap=4)=>{p.setFont('helvetica',bold?'bold':'normal');p.setFontSize(sz);p.splitTextToSize(String(t),504).forEach(l=>{if(y>730){p.addPage();y=60}p.text(l,54,y);y+=sz*1.35});y+=gap};
+ w('Patient-reported summary (not a diagnosis)',16,1,2);w((S.who?'Visit with '+S.who+'. ':'')+'Last '+S.range+' days: '+r.es.length+' notes on '+r.days+' days. Patient’s own words, organized by AI and approved by the patient.',10,0,10);
+ w('Reported symptoms',13,1);r.sy.forEach(s=>w(s.name+': '+s.n+(s.n>1?' days':' day')+' ('+fd(s.a,SH)+' to '+fd(s.b,SH)+'). Latest detail: '+s.last,11,0,2));
+ y+=8;w('Patient’s questions',13,1);(r.qs.length?r.qs:['None listed']).forEach((q,i)=>w((i+1)+'. '+q,11,0,2));
+ y+=8;w('Timeline',13,1);r.es.forEach(e=>w(fd(e.date,SH)+': '+e.summary,11,0,2));
+ try{if(dl)await dl.save({filename:'visitvoice-report.pdf',data:p.output('arraybuffer')});else p.save('visitvoice-report.pdf')}catch(e){if(e.code!=='declined')alert('Couldn’t save the PDF here.')}}
+document.addEventListener('click',async e=>{const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,d=b.dataset;
+ if(a==='big'){const on=document.documentElement.classList.toggle('big');b.setAttribute('aria-pressed',on);b.textContent=on?'Normal text':'Larger text';return}
+ if(a==='dict')return dictate(+d.i);
+ if(a==='mic')return toggleMic();
+ if(a==='go'){S.view=d.v;if(d.v==='today'&&S.saved)S.saved=null;return render(1)}
+ if(a==='org'){if(S.rec&&rc)rc.stop();S.busy=true;render();S.draft=await organize(S.text);S.busy=false;return render()}
+ if(a==='upd'){const x=[...document.querySelectorAll('[data-b=cl]')].map((i,k)=>i.value.trim()?S.draft.clarify[k]+' '+i.value.trim()+'.':'').filter(Boolean).join(' ');if(!x)return;S.text=(S.text.trim()+' '+x).trim();S.busy=true;render();S.draft=await organize(S.text);S.busy=false;return render()}
+ if(a==='rm'){S.draft.symptoms.splice(+d.i,1);return render()}
+ if(a==='save'){const x=S.draft,qs=[...document.querySelectorAll('[data-b=q]')].filter(i=>i.checked).map(i=>x.questions[+i.dataset.i]),n=new Date();
+  S.entries.push({id:'e'+n.getTime(),ts:n.getTime(),date:iso(n),time:n.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'}),summary:x.summary,symptoms:x.symptoms,questions:qs});save();S.saved=iso(n);S.text='';S.draft=null;return render(1)}
+ if(a==='again'){S.saved=null;S.text='';S.draft=null;return render(1)}
+ if(a==='day'){S.sel=S.sel===d.d?null:d.d;return render()}
+ if(a==='mo'){S.mo=new Date(S.mo.getFullYear(),S.mo.getMonth()+ +d.n,1);return render()}
+ if(a==='del'){if(S.cd!==d.id){S.cd=d.id;b.textContent='Tap again to delete';return}S.cd=null;S.entries=S.entries.filter(x=>x.id!==d.id);save();render();return}
+ if(a==='clr'){S.entries=S.entries.filter(x=>!x.sample);save();return render()}
+ if(a==='mode'){S.mode=d.m;return render()}
+ if(a==='addq'){const i=$('#nq');if(i.value.trim()){S.myq.push(i.value.trim());save();render()}return}
+ if(a==='print')return savePdf()});
+document.addEventListener('input',e=>{const b=e.target.dataset.b,v=e.target.value;if(b==='text'){S.text=v;const g=$('#go');if(g)g.disabled=!v.trim()}else if(b==='sum')S.draft.summary=v;else if(b==='who')S.who=v});
+document.addEventListener('change',e=>{const t=e.target;if(t.dataset.b==='range'){S.range=+t.value;render()}else if(t.dataset.b==='who')render()});
+load();render();
+</script>
+</body>
+</html>
